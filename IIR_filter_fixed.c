@@ -42,7 +42,7 @@ int64_t fixed_point_add(int64_t a, int64_t b) {
     return result;
 }
 
-void biquad_filter_block(Biquad *biquad, int32_t *input, int32_t *output, int32_t block_size,int32_t qInt,int32_t qOut) {
+void biquad_filter_block(Biquad *biquad, int32_t *input, int32_t *output, int32_t block_size,int32_t qInt) {
     for (int32_t n = 0; n < block_size; n++) {
         int64_t t1, t2, t3, t4, t5;
         int64_t yn;
@@ -77,10 +77,10 @@ void process_block(int32_t *input, int32_t *output, int32_t block_size, Biquad *
     int32_t *out_ptr = temp;
 
     //for (int32_t i = 0; i < num_sections; i++) {
-        biquad_filter_block(&biquads[0], in_ptr, out_ptr, block_size,0,32);
+        biquad_filter_block(&biquads[0], in_ptr, out_ptr, block_size,0);
         in_ptr = out_ptr;
         out_ptr = (out_ptr == temp) ? output : temp;  // Alternate between temp and output
-        biquad_filter_block(&biquads[1], in_ptr, out_ptr, block_size, 2,28);
+        biquad_filter_block(&biquads[1], in_ptr, out_ptr, block_size, 2);
         in_ptr = out_ptr;
         out_ptr = (out_ptr == temp) ? output : temp;  // Alternate between temp and output
     //}
